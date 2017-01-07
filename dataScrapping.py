@@ -1,3 +1,8 @@
+# Web Scraper to get the names of teams in each round of the march madness tournament for a specific year
+# Author: Will Fritz
+# Date: 1/7/2017
+
+# needed for web scrapping
 import urllib2
 from bs4 import BeautifulSoup
 
@@ -6,7 +11,6 @@ url = "http://www.sports-reference.com/cbb/postseason/2010-ncaa.html"
 
 # query website and return the html
 page = urllib2.urlopen(url)
-
 soup = BeautifulSoup(page, "html.parser")
 
 ###################### LISTS ######################
@@ -86,86 +90,7 @@ for r in regions:
 		roundCount += 1
 
 	grandListCounter += 1
-"""
-###################### EAST ######################
-south = soup.find('div', {'id':'east'})
-eastAll = south.find_all('a')
 
-# each respective round in the East 
-eAll = [] # every team
-eRoundOne = []
-eRoundTwo = []
-eRoundThree = []
-eRoundFour = []
-eRoundFive = []
-
-# takes the 1st and 3rd link text out of groupings of five
-ignoreCount = 0 # used to determine what link text to obtain
-for a in eastAll:
-	if ignoreCount == 4:
-		ignoreCount = -1 
-	if ignoreCount%2 == 0:
-		eAll.append(a.string)
-	ignoreCount += 1
-
-# populate an array for each round
-roundCount = 0
-
-for team in eAll:
-	if roundCount == 30:
-		eRoundFive.append(team)
-	elif roundCount <= 29 and roundCount > 27:
-		eRoundFour.append(team)
-	elif roundCount <= 27 and roundCount > 23:
-		eRoundThree.append(team)
-	elif roundCount <= 23 and roundCount > 15:
-		eRoundTwo.append(team)
-	else:
-		eRoundOne.append(team)
-	roundCount += 1
-
-###################### MIDWEST ######################
-south = soup.find('div', {'id':'south'})
-southAll = south.find_all('a')
-
-# each respective round in the South 
-sAll = [] # every team
-sRoundOne = []
-sRoundTwo = []
-sRoundThree = []
-sRoundFour = []
-sRoundFive = []
-
-# takes the 1st and 3rd link text out of groupings of five
-ignoreCount = 0 # used to determine what link text to obtain
-for a in southAll:
-	if ignoreCount == 4:
-		ignoreCount = -1 
-	if ignoreCount%2 == 0:
-		sAll.append(a.string)
-	ignoreCount += 1
-
-# populate an array for each round
-roundCount = 0
-
-for team in sAll:
-	if roundCount == 30:
-		sRoundFive.append(team)
-	elif roundCount <= 29 and roundCount > 27:
-		sRoundFour.append(team)
-	elif roundCount <= 27 and roundCount > 23:
-		sRoundThree.append(team)
-	elif roundCount <= 23 and roundCount > 15:
-		sRoundTwo.append(team)
-	else:
-		sRoundOne.append(team)
-	roundCount += 1
-print sRoundOne
-print sRoundTwo
-print sRoundThree
-print sRoundFour
-print sRoundFive
-"""
 print grandList[23]
 
 
