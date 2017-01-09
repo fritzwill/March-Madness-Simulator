@@ -5,9 +5,12 @@
 # needed for web scrapping
 import urllib2
 from bs4 import BeautifulSoup
+# needed for creating csv file
+import csv
 
 # the url we are using
 url = "http://www.sports-reference.com/cbb/postseason/2010-ncaa.html"
+outputName = "season2010.csv" # use template example (change year as needed): season2010.csv 
 
 # query website and return the html
 page = urllib2.urlopen(url)
@@ -42,11 +45,16 @@ wRoundTwo = []
 wRoundThree = []
 wRoundFour = []
 wRoundFive = []
+# each round starting with final 4
+finalFour = []
+championship = []
+champion = []
 # list containing all the above
 grandList = [sAll, sRoundOne, sRoundTwo, sRoundThree, sRoundFour, sRoundFive, 
 eAll, eRoundOne, eRoundTwo, eRoundThree, eRoundFour, eRoundFive,
 mAll, mRoundOne, mRoundTwo, mRoundThree, mRoundFour, mRoundFive,
-wAll, wRoundOne, wRoundTwo, wRoundThree, wRoundFour, wRoundFive]
+wAll, wRoundOne, wRoundTwo, wRoundThree, wRoundFour, wRoundFive,
+finalFour, championship, champion]
 
 ################# POPULATING LISTS #################
 regions = ['south', 'east', 'midwest', 'west']
@@ -91,8 +99,43 @@ for r in regions:
 
 	grandListCounter += 1
 
-print grandList[23]
+# national: composed of final four teams
+national = soup.find('div', {'class':'team4'})
+nAll = national.find_all('a')
 
+ignoreCount = 0
+for n in nAll:
+		if ignoreCount == 16:
+			grandListCounter += 1
+			ignoreCount = 17
+		if ignoreCount == 10:
+			grandListCounter += 1
+			ignoreCount = 11
+		if ignoreCount == 4:
+			ignoreCount = 5
+		if ignoreCount%2 == 0:
+			grandList[grandListCounter].append(n.string)
+		ignoreCount += 1
+
+#################### OUTPUT CSV ####################
+counterRange1 = range(1, 6)
+counterRange2 = range(7, 12)
+counterRange3 = range(13, 18)
+counterRange4 = range(19, 24)
+counterRange5 = range(24,27)
+
+with open(outputName,'wb') as csvfile:
+	filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	for i in counterRange1:
+		filewriter.writerow(grandList[i])
+	for i in counterRange2:
+		filewriter.writerow(grandList[i])
+	for i in counterRange3:
+		filewriter.writerow(grandList[i])
+	for i in counterRange4:
+		filewriter.writerow(grandList[i])
+	for i in counterRange5:
+		filewriter.writerow(grandList[i])
 
 
 
