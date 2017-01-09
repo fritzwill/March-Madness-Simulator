@@ -1,4 +1,8 @@
-# Web Scraper to get the names of teams in each round of the march madness tournament for a specific year
+# Web Scraper to get the names of teams in each round of the mens NCAA march madness tournament for a specific year
+# The scraper works for sports-reference.com, specifically the "NCAA tournament" for a specific year
+# Sample url on which the web scraper works: http://www.sports-reference.com/cbb/postseason/2012-ncaa.html
+# Use this scraper on sports-reference pages similar to the above url
+
 # Author: Will Fritz
 # Date: 1/7/2017
 
@@ -8,9 +12,10 @@ from bs4 import BeautifulSoup
 # needed for creating csv file
 import csv
 
-# the url we are using
-url = "http://www.sports-reference.com/cbb/postseason/2010-ncaa.html"
-outputName = "season2010.csv" # use template example (change year as needed): season2010.csv 
+# the following must be changed relative to each year
+url = "http://www.sports-reference.com/cbb/postseason/2016-ncaa.html" # url of page being scraped
+outputName = "season2016.csv" # use template example (change year as needed): season2010.csv 
+regions = ['east', 'west', 'south', 'midwest'] # must be changed relative to each year (look at what webpage has for each region)
 
 # query website and return the html
 page = urllib2.urlopen(url)
@@ -57,7 +62,6 @@ wAll, wRoundOne, wRoundTwo, wRoundThree, wRoundFour, wRoundFive,
 finalFour, championship, champion]
 
 ################# POPULATING LISTS #################
-regions = ['south', 'east', 'midwest', 'west']
 grandListCounter = 0 # used to access each list in grandList
 for r in regions: 
 	region = soup.find('div', {'id':r})
